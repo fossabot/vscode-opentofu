@@ -13,7 +13,7 @@ name: Check if changelog entry exists
 jobs:
   changelog_existence:
     name: Check if changelog entry exists
-    if: "!contains(github.event.pull_request.labels.*.name, 'dependencies')"
+    if: ${{ ! (contains(github.event.pull_request.labels.*.name, 'dependencies') || contains(github.event.pull_request.labels.*.name, 'internal-work')) }}
     runs-on: ubuntu-latest
 
     steps:
