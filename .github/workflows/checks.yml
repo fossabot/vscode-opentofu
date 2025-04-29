@@ -1,0 +1,25 @@
+# Checks if files were committed with the right copyright headers
+#
+
+on:
+  pull_request:
+
+jobs:
+  consistency-checks:
+    name: "Code Consistency Checks"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Fetch source code"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0 # We need to do comparisons against the main branch.
+      - name: Setup Copywrite
+        uses: hashicorp/setup-copywrite@867a1a2a064a0626db322392806428f7dc59cb3e # v1.1.2
+      - name: "Copyright headers"
+        run: |
+          copywrite headers --plan
+          if [[ $? != 0 ]]; then
+            echo >&2 "ERROR: some files are missing required copyright headers. Take a look at the .copywrite.hcl file to see which headers are expected."
+            exit 1
+          fi
