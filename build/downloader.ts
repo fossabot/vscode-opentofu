@@ -5,6 +5,8 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import * as tar from 'tar';
+
 import axios from 'axios';
 
 async function fileFromUrl(url: string): Promise<Buffer> {
@@ -34,16 +36,17 @@ function getPlatform(platform: string) {
 function getArch(arch: string) {
   // platform | terraform-ls  | extension platform | vs code editor
   //    --    |           --  |         --         | --
-  // macOS    | darwin_amd64  | darwin_x64         | ✅
+  // macOS    | darwin_x86_64  | darwin_x64         | ✅
   // macOS    | darwin_arm64  | darwin_arm64       | ✅
-  // Linux    | linux_amd64   | linux_x64          | ✅
+  // Linux    | linux_x86_64   | linux_x64          | ✅
   // Linux    | linux_arm     | linux_armhf        | ✅
   // Linux    | linux_arm64   | linux_arm64        | ✅
-  // Windows  | windows_amd64 | win32_x64          | ✅
+  // Windows  | windows_x86_64 | win32_x64          | ✅
   // Windows  | windows_arm64 | win32_arm64        | ✅
   if (arch === 'x64') {
-    return 'amd64';
+    return 'x86_64';
   }
+
   if (arch === 'armhf') {
     return 'arm';
   }
@@ -70,6 +73,10 @@ function getExtensionInfo(): ExtensionInfo {
   };
 }
 
+function capitalize(s: string) {
+  return String(s[0]).toUpperCase() + String(s).slice(1);
+}
+
 async function downloadLanguageServer(platform: string, architecture: string, extInfo: ExtensionInfo) {
   const cwd = path.resolve(__dirname);
 
@@ -79,11 +86,8 @@ async function downloadLanguageServer(platform: string, architecture: string, ex
   const buildDir = path.basename(cwd);
   const repoDir = cwd.replace(buildDir, '');
   const installPath = path.join(repoDir, 'bin');
-  const filename = os === 'windows' ? 'opentofu-ls.exe' : 'opentofu-ls';
-  const packageName =
-    os === 'windows'
-      ? `opentofu-ls_${extInfo.languageServerVersion}_${os}_${arch}.exe`
-      : `opentofu-ls_${extInfo.languageServerVersion}_${os}_${arch}`;
+  const filename = 'tofu-ls';
+  const packageName = `tofu-ls_${capitalize(os)}_${arch}`;
   const filePath = path.join(installPath, filename);
   if (fs.existsSync(filePath)) {
     if (process.env.downloader_log === 'true') {
@@ -95,7 +99,7 @@ async function downloadLanguageServer(platform: string, architecture: string, ex
   fs.mkdirSync(installPath);
 
   await fetchVersion({
-    repository: 'gamunu/opentofu-ls',
+    repository: 'opentofu/tofu-ls',
     package: packageName,
     destination: installPath,
     fileName: filename,
@@ -147,17 +151,24 @@ async function downloadSyntax(info: ExtensionInfo) {
 
 export async function fetchVersion(release: Release): Promise<void> {
   validateRelease(release);
-  await downloadBinary(release);
+  await downloadRelease(release);
 }
 
-async function downloadBinary(release: Release) {
-  const url = `https://github.com/${release.repository}/releases/download/v${release.version}/${release.package}`;
+function untarFiles(path: string) {
+  tar.extract({
+    f: path,
+    C: 'bin',
+  });
+}
+
+async function downloadRelease(release: Release) {
+  const url = `https://github.com/${release.repository}/releases/download/v${release.version}/${release.package}.tar.gz`;
+
+  console.log('Downloading ', url);
 
   const fpath = path.join(release.destination, release.fileName);
 
   try {
-    //fs.mkdirSync(release.destination);
-
     const buffer = await fileFromUrl(url);
     fs.writeFileSync(fpath, buffer);
 
@@ -168,6 +179,8 @@ async function downloadBinary(release: Release) {
     if (process.env.downloader_log === 'true') {
       console.log(`Download completed`);
     }
+
+    untarFiles(fpath);
   } catch (error) {
     console.log(error);
     throw new Error(`Release download failed version: ${release.version}, fileName: ${release.fileName}`);
