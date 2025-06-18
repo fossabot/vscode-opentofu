@@ -23,15 +23,15 @@ import { config, handleLanguageClientStartError } from './utils/vscode';
 import { CustomSemanticTokens } from './features/semanticTokens';
 import { GenerateBugReportCommand } from './commands/generateBugReport';
 import { LanguageStatusFeature } from './features/languageStatus';
-import { ModuleCallsDataProvider } from './providers/terraform/moduleCalls';
+import { ModuleCallsDataProvider } from './providers/opentofu/moduleCalls';
 import { ModuleCallsFeature } from './features/moduleCalls';
-import { ModuleProvidersDataProvider } from './providers/terraform/moduleProviders';
+import { ModuleProvidersDataProvider } from './providers/opentofu/moduleProviders';
 import { ModuleProvidersFeature } from './features/moduleProviders';
 import { ServerPath } from './utils/serverPath';
 import { ShowReferencesFeature } from './features/showReferences';
-import { TerraformCommands } from './commands/terraform';
-import { TerraformLSCommands } from './commands/terraformls';
-import { TerraformVersionFeature } from './features/terraformVersion';
+import { TofuCommands } from './commands/tofu.js';
+import { TofuLSCommands } from './commands/tofuls.js';
+import { TofuVersionFeature } from './features/tofuVersion.js';
 import { getInitializationOptions } from './settings';
 import { getServerOptions } from './utils/clientHelpers';
 
@@ -50,8 +50,8 @@ let crashCount = 0;
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   const manifest = context.extension.packageJSON;
 
-  // always register commands needed to control terraform-ls
-  context.subscriptions.push(new TerraformLSCommands());
+  // always register commands needed to control tofu-ls
+  context.subscriptions.push(new TofuLSCommands());
 
   if (config('opentofu').get<boolean>('languageServer.enable') === false) {
     return;
@@ -190,11 +190,11 @@ export async function activate(context: vscode.ExtensionContext): Promise<void> 
     new ModuleProvidersFeature(client, new ModuleProvidersDataProvider(context, client)),
     new ModuleCallsFeature(client, new ModuleCallsDataProvider(context, client)),
     new ShowReferencesFeature(client),
-    new TerraformVersionFeature(client, outputChannel),
+    new TofuVersionFeature(client, outputChannel),
   ]);
 
   // these need the LS to function, so are only registered if enabled
-  context.subscriptions.push(new GenerateBugReportCommand(context), new TerraformCommands(client));
+  context.subscriptions.push(new GenerateBugReportCommand(context), new TofuCommands(client));
 
   try {
     await client.start();

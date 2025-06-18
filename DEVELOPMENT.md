@@ -136,15 +136,15 @@ npm run package -- --target=win32-x64
 
 Replace `target` with the platform/architecture combination that is on the supported matrix list.
 
-platform | tofu-ls       | extension     | vs code
-   --    |           --  |         --    | --
-macOS    | darwin_amd64  | darwin_x64    | ✅
-macOS    | darwin_arm64  | darwin_arm64  | ✅
-Linux    | linux_amd64   | linux_x64     | ✅
-Linux    | linux_arm     | linux_armhf   | ✅
-Linux    | linux_arm64   | linux_arm64   | ✅
-Windows  | windows_amd64 | win32_x64     | ✅
-Windows  | windows_arm64 | win32_arm64   | ✅
+platform | tofu-ls  | extension platform | vs code editor
+   --    |           --  |         --         | --
+macOS    | darwin_x86_64 | darwin_x64         | ✅
+macOS    | darwin_arm64  | darwin_arm64       | ✅
+Linux    | linux_x86_64  | linux_x64          | ✅
+Linux    | linux_arm     | linux_armhf        | ✅
+Linux    | linux_arm64   | linux_arm64        | ✅
+Windows  | windows_x86_64| win32_x64          | ✅
+Windows  | windows_arm64 | win32_arm64        | 
 
 This will run several chained commands which will download the specified version of tofu-ls, minify the extension using Webpack, and package the extension using vsce into a VSIX.
 

@@ -15,7 +15,7 @@ export function getTestWorkspacePath() {
   return path.join(__dirname, '../../../', 'testFixture');
 }
 
-describe('Terraform ViewContainer', function () {
+describe('OpenTofu ViewContainer', function () {
   this.retries(3);
   let workbench: Workbench;
 
@@ -27,13 +27,13 @@ describe('Terraform ViewContainer', function () {
     // TODO: Close the file
   });
 
-  it('should have terraform viewcontainer', async () => {
+  it('should have opentofu viewcontainer', async () => {
     const viewContainers = await workbench.getActivityBar().getViewControls();
     const titles = await Promise.all(viewContainers.map((vc) => vc.getTitle()));
-    expect(titles).toContain('HashiCorp Terraform');
+    expect(titles).toContain('OpenTofu');
   });
 
-  describe('in an terraform project', () => {
+  describe('in an opentofu project', () => {
     before(async () => {
       const testFile = path.join(getTestWorkspacePath(), `sample.tf`);
       browser.executeWorkbench((vscode, fileToOpen) => {
@@ -46,15 +46,15 @@ describe('Terraform ViewContainer', function () {
     });
 
     describe('providers view', () => {
-      let terraformViewContainer: ViewControl | undefined;
+      let opentofuViewContainer: ViewControl | undefined;
       let openViewContainer: SideBarView<any> | undefined;
       let callSection: ViewSection | undefined;
       let items: CustomTreeItem[];
 
       before(async () => {
-        terraformViewContainer = await workbench.getActivityBar().getViewControl('HashiCorp Terraform');
-        await terraformViewContainer?.wait();
-        await terraformViewContainer?.openView();
+        opentofuViewContainer = await workbench.getActivityBar().getViewControl('OpenTofu');
+        await opentofuViewContainer?.wait();
+        await opentofuViewContainer?.openView();
         openViewContainer = workbench.getSideBar();
       });
 
@@ -88,15 +88,15 @@ describe('Terraform ViewContainer', function () {
     });
 
     describe('calls view', () => {
-      let terraformViewContainer: ViewControl | undefined;
+      let opentofuViewContainer: ViewControl | undefined;
       let openViewContainer: SideBarView<any> | undefined;
       let callSection: ViewSection | undefined;
       let items: CustomTreeItem[];
 
       before(async () => {
-        terraformViewContainer = await workbench.getActivityBar().getViewControl('HashiCorp Terraform');
-        await terraformViewContainer?.wait();
-        await terraformViewContainer?.openView();
+        opentofuViewContainer = await workbench.getActivityBar().getViewControl('OpenTofu');
+        await opentofuViewContainer?.wait();
+        await opentofuViewContainer?.openView();
         openViewContainer = workbench.getSideBar();
       });
 

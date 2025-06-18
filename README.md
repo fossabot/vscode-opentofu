@@ -232,12 +232,12 @@ Display reference counts above top level blocks and attributes
 To enable automatic formatting, it is recommended that the following be added to the extension settings for the OpenTofu extension:
 
 ```json
-"[terraform]": {
+"[opentofu]": {
   "editor.defaultFormatter": "opentofu.opentofu",
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file"
 },
-"[terraform-vars]": {
+"[opentofu-vars]": {
   "editor.defaultFormatter": "opentofu.opentofu",
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file"
@@ -252,14 +252,14 @@ If you want to use `editor.codeActionsOnSave` with `editor.formatOnSave` to auto
 
 ```json
 "editor.formatOnSave": true,
-"[terraform]": {
+"[opentofu]": {
   "editor.defaultFormatter": "opentofu.opentofu",
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.formatAll.opentofu": true
   },
 },
-"[terraform-vars]": {
+"[opentofu-vars]": {
   "editor.defaultFormatter": "opentofu.opentofu",
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
@@ -335,9 +335,9 @@ Supports variables (e.g. timestamp, pid, ppid) via Go template syntax `{{varname
 
 ## Known Issues
 
-- If there are syntax errors present in the document upon opening, intellisense may not provide all completions. Run `tofu: validate` and fix validation errors, then reload the document and intellisense will work again. Potential solutions for this are being investigated in See [hcl-lang#57](https://github.com/hashicorp/hcl-lang/issues/57) for more information.
-- Completion inside incomplete blocks, such as `resource "here` (without the closing quote and braces) is not supported. You can complete the 1st level blocks though and that will automatically trigger subsequent completion for e.g. resource types. See [tofu-ls#57](https://github.com/opentofu/tofu-ls/issues/57) for more information.
-- A number of different folder configurations (specifically when your root module is not a parent to any submodules) are not yet supported. More information available in ([tofu-ls#32](https://github.com/opentofu/tofu-ls/issues/32#issuecomment-649707345))
+- If there are syntax errors present in the document upon opening, intellisense may not provide all completions. Run `tofu validate` and fix validation errors, then reload the document and intellisense will work again. Potential solutions for this are being investigated in See [hcl-lang#57](https://github.com/hashicorp/hcl-lang/issues/57) for more information.
+- Completion inside incomplete blocks, such as `resource "here` (without the closing quote and braces) is not supported. You can complete the 1st level blocks though and that will automatically trigger subsequent completion for e.g. resource types. See [terraform-ls#57](https://github.com/hashicorp/terraform-ls/issues/57) for more information.
+- A number of different folder configurations (specifically when your root module is not a parent to any submodules) are not yet supported. More information available in ([terraform-ls#32](https://github.com/hashicorp/terraform-ls/issues/32#issuecomment-649707345))
 
 ## Troubleshooting
 
@@ -369,12 +369,12 @@ We are an open source project on GitHub and would enjoy your contributions! Cons
 ## Credits
 
 - [Mikael Olenfalk](https://github.com/mauve) - creating the [vscode-terraform](https://github.com/mauve/vscode-terraform) extension, which was used as a starting point and inspiration for this extension.
-- [Hashicorp Terraform](https://github.com/mauve) - creating the [vscode-terraform](https://github.com/hashicorp/vscode-terraform) extension, which was used as a starting point and inspiration for this extension.
+- [Hashicorp](https://github.com/hashicorp) - creating the [vscode-terraform](https://github.com/hashicorp/vscode-terraform) extension, which was used as a starting point and inspiration for this extension.
 - [Gamunu Balagalla](http://github.com/gamunu) for creating the first OpenTofu's VSCode extension. The [original project](https://github.com/gamunu/vscode-opentofu) was the foundation for this project and the fork was derived from it.
 
 # Trademarks
 
 This project mentions the following registered trademarks:
 
-- The names Terraform (registered trademark of HashiCorp) and OpenTofu (registered trademark of Linux Foundation) are used in this project for informational purposes only.
+- The name **Terraform** (registered trademark of HashiCorp) is used in this project for informational purposes only.
 - This project does not claim any affiliation with or endorsement by the owners of the mentioned trademarks.

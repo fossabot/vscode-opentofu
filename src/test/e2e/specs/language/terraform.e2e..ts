@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-describe('Terraform language tests', () => {
+describe('OpenTofu language tests', () => {
   let statusBar: StatusBar;
 
   before(async () => {
@@ -30,23 +30,6 @@ describe('Terraform language tests', () => {
   });
 
   it('can detect correct language', async () => {
-    expect(await statusBar.getCurrentLanguage()).toContain('Terraform');
+    expect(await statusBar.getCurrentLanguage()).toContain('OpenTofu');
   });
-
-  // it('can detect terraform version', async () => {
-  //   let item: WebdriverIO.Element | undefined;
-  //   await browser.waitUntil(
-  //     async () => {
-  //       const i = await statusBar.getItems();
-  //       // console.log(i);
-
-  //       item = await statusBar.getItem(
-  //         'Editor Language Status: 0.32.7, Terraform LS, next: 1.6.6, Terraform Installed, next: any, Terraform Required',
-  //       );
-  //     },
-  //     { timeout: 10000, timeoutMsg: 'Did not find a version' },
-  //   );
-
-  //   expect(item).toBeDefined();
-  // });
 });
