@@ -1,4 +1,6 @@
 # OpenTofu Extension for Visual Studio Code
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopentofu%2Fvscode-opentofu.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopentofu%2Fvscode-opentofu?ref=badge_shield)
+
 
 [OpenTofu Extension for Visual Studio Code (VS Code)](https://marketplace.visualstudio.com/items?itemName=opentofu.vscode-opentofu) with the [OpenTofu Language Server](https://github.com/opentofu/tofu-ls) adds editing features for [OpenTofu](https://opentofu.org/) files such as syntax highlighting, IntelliSense, code navigation, code formatting, module explorer and much more!
 
@@ -366,3 +368,7 @@ This project mentions the following registered trademarks:
 
 - The name **Terraform** (registered trademark of HashiCorp) is used in this project for informational purposes only.
 - This project does not claim any affiliation with or endorsement by the owners of the mentioned trademarks.
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fopentofu%2Fvscode-opentofu.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fopentofu%2Fvscode-opentofu?ref=badge_large)
